@@ -70,6 +70,12 @@ export const placeOrderStripe = async (req, res) => {
     const { userId, items, address } = req.body;
     const { origin } = req.headers;
 
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+
     if (!address || items.length === 0) {
       return res.json({ success: false, message: "Invalid data" });
     }
@@ -124,6 +130,7 @@ export const placeOrderStripe = async (req, res) => {
         orderId: order._id.toString(),
         userId,
       },
+      customer_email: user.email,
     });
 
     return res.json({ success: true, url: session.url });
