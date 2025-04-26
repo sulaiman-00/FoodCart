@@ -4,7 +4,7 @@ import Product from "../models/Product.js";
 //add product : /api/product/add
 export const addProduct = async (req, res) => {
   try {
-    let productData = JSON.parse(req.body.product);
+    let productData = JSON.parse(req.body.productData);
 
     const images = req.files;
 
@@ -19,13 +19,13 @@ export const addProduct = async (req, res) => {
 
     await Product.create({
       ...productData,
-      images: imagesUrl,
+      image: imagesUrl,
     });
 
     res.json({ success: true, message: "Product added successfully" });
   } catch (error) {
     console.log(error.message);
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -46,7 +46,10 @@ export const productById = async (req, res) => {
     const { id } = req.body;
     const product = await Product.findById(id);
     res.json({ success: true, product });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
 };
 
 //change product instock : /api/product/stock

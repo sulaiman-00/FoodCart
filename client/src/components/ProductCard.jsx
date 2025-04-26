@@ -57,7 +57,7 @@ const ProductCard = ({ product }) => {
               }}
               className="text-primary"
             >
-              {!cartItems[product._id] ? (
+              {!cartItems?.[product._id] ? (
                 <button
                   className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded cursor-pointer"
                   onClick={() => addToCart(product._id)}
